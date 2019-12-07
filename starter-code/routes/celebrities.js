@@ -16,7 +16,7 @@ router.get('/new', function(req,res,next){
   res.render('celebrities/new')
 })
 
-router.post('/new',function(req,res,next){
+router.post('/new', function(req,res,next){
   const name = req.body.name;
   const occupation = req.body.occupation;
   const catchPhrase = req.body.catchPhrase;
@@ -41,12 +41,13 @@ router.get('/:id', function(req,res,next){
   .catch(err => next(err));
 })
 
-router.post('/celebrities/:id/delete', function(req,res,next) {
-  Celebrity.findByIdAndRemove(req.body.id)
-  .then(
-    res.redirect(`/celebrities`)
-  )
-  .catch(err => next(err));
+router.post('/:id/delete', function(req,res,next) {
+  Celebrity.findByIdAndRemove(req.params.id)
+    .then(() => {
+      console.log('check');
+      res.redirect('/celebrities')
+    })
+    .catch(err => next(err));
 })
 
 module.exports = router;
