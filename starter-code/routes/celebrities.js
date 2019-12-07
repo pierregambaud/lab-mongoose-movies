@@ -41,7 +41,7 @@ router.get('/:id', function(req,res,next){
   .catch(err => next(err));
 })
 
-router.post('/celebrities/:id/delete', function(req,res,next) {
+router.post('/', function(req,res,next) {
   Celebrity.findByIdAndRemove(req.body.id)
   .then(
     res.redirect(`/celebrities`)
