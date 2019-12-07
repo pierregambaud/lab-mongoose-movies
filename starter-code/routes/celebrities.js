@@ -12,6 +12,24 @@ router.get('/', function(req,res,next){
   .catch(err => next(err));
 })
 
+router.get('/new', function(req,res,next){
+  res.render('celebrities/new')
+})
+
+router.post('/new',function(req,res,next){
+  const name = req.body.name;
+  const occupation = req.body.occupation;
+  const catchPhrase = req.body.catchPhrase;
+
+  Celebrity.create({
+    name:name,
+    occupation:occupation,
+    catchPhrase:catchPhrase
+  }).then(
+    res.redirect('/celebrities')
+  )
+})
+
 router.get('/:id', function(req,res,next){
   Celebrity.findById(req.params.id)
   .then(function(celebrity){
@@ -22,6 +40,5 @@ router.get('/:id', function(req,res,next){
   })
   .catch(err => next(err));
 })
-
 
 module.exports = router;
