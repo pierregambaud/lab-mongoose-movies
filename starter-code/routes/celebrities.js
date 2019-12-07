@@ -11,4 +11,17 @@ router.get('/', function(req,res,next){
   })
   .catch(err => next(err));
 })
+
+router.get('/:id', function(req,res,next){
+  Celebrity.findById(req.params.id)
+  .then(function(celebrity){
+    res.render('celebrities/show',{
+      celebrity:celebrity
+    })
+
+  })
+  .catch(err => next(err));
+})
+
+
 module.exports = router;
