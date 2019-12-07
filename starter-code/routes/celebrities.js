@@ -32,12 +32,37 @@ router.post('/new',function(req,res,next){
 
 router.get('/:id', function(req,res,next){
   Celebrity.findById(req.params.id)
-  .then(function(celebrity){
-    res.render('celebrities/show',{
-      celebrity:celebrity
+  .then(function(celebrity) {
+    res.render('celebrities/show', {
+      celebrity: celebrity
     })
-
   })
+  .catch(err => next(err));
+})
+
+router.get('/:id/edit', function(req,res,next) {
+  Celebrity.findById(req.params.id)
+  .then(function(celebrity) {
+    res.render('celebrities/edit', {
+      celebrity: celebrity
+    })
+  })
+  .catch(err => next(err));
+})
+
+router.post('/:id', function(req,res,next) {
+  const { name, occupation, catchPhrase } = req.body;
+
+  Celebrity.findByIdAndUpdate(req.params.id, {
+    $set: {
+      name,
+      occupation,
+      catchPhrase
+    }
+  })
+  .then(
+    res.redirect(`/celebrities/${req.params.id}`)
+  )
   .catch(err => next(err));
 })
 
