@@ -58,7 +58,7 @@ router.post(`/:id`, (req,res,next) => {
       plot,
       cast
     }
-  })
+  }, { new: true })
   .then(
     res.redirect(`/movies/${req.params.id}`)
   )

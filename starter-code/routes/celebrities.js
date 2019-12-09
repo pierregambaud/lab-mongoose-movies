@@ -97,7 +97,7 @@ router.post('/:id', (req,res,next) => {
       occupation,
       catchPhrase
     }
-  })
+  }, { new: true })
   .then(
     res.redirect(`/celebrities/${req.params.id}`)
   )
