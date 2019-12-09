@@ -1,0 +1,12 @@
+<h1>{{movie.title}}</h1>
+<p><b>Genre:</b> {{movie.genre}}</p>
+<p><b>Plot:</b> {{movie.plot}}</p>
+<p><b>Cast:</b>
+  <ul>
+    {{#each movie.cast}}
+    <li>{{name}}</li>
+    {{/each}}
+  </ul>
+</p>
+
+<a href="/movies">Back to movies</a>

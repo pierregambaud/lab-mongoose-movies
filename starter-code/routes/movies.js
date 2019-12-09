@@ -38,4 +38,15 @@ router.get(`/`, function(req, res, next) {
   .catch(err => next(err))
 })
 
+router.get(`/:id`, function(req,res,next) {
+  Movie.findById(req.params.id)
+  .populate(`cast`)
+  .then(function(movie) {
+    res.render(`movies/show`, {
+      movie
+    })
+  })
+  .catch(err => next(err))
+})
+
 module.exports = router;
