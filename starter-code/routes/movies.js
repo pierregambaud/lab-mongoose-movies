@@ -12,7 +12,7 @@ const Celebrity = require(`../models/celebrity`);
 // ##   ### ##       ##  ##  ## 
 // ##    ## ########  ###  ###                               
 
-router.post(`/`, function(req,res,next) {
+router.post(`/`, (req,res,next) => {
   const { title, genre, plot, cast } = req.body;
 
   Movie.create({
@@ -28,9 +28,9 @@ router.post(`/`, function(req,res,next) {
 })
 
 
-router.get(`/new`, function(req,res,next) {
+router.get(`/new`, (req,res,next) => {
   Celebrity.find()
-  .then(function(celebrities) {
+  .then(celebrities => {
     res.render(`movies/new`, {
       celebrities: celebrities
     })
@@ -48,7 +48,7 @@ router.get(`/new`, function(req,res,next) {
 // ######## ########  ####    ##    
 
 
-router.post(`/:id`, function(req,res,next) {
+router.post(`/:id`, (req,res,next) => {
   const { title, genre, plot, cast } = req.body;
 
   Movie.findByIdAndUpdate(req.params.id, {
@@ -66,12 +66,12 @@ router.post(`/:id`, function(req,res,next) {
 })
 
 
-router.get(`/:id/edit`, function(req,res,next) {
+router.get(`/:id/edit`, (req,res,next) => {
   Movie.findById(req.params.id)
   .populate(`cast`)
-  .then(function(movie) {
+  .then(movie => {
     Celebrity.find()
-    .then(function(celebrities) {
+    .then(celebrities => {
       const castIds = movie.cast.map(castCelebrity => castCelebrity.id);
 
       celebrities.map((celebrity) => {
@@ -92,6 +92,28 @@ router.get(`/:id/edit`, function(req,res,next) {
   .catch(err => next(err))
 })
 
+// SOLUTION (better alternative)
+// -----
+// router.get(/:id/edit, (req,res,next) => {
+//   Movie.findById(req.params.id)
+//   .populate(cast)
+//   .then(movie => {
+//     Celebrity.find()
+//     .then(celebrities => {
+//       res.render(`movies/edit`, {
+//         movie,
+//         celebrities: celebrities.map(celebrity => ({
+//           id: celebrity.id,
+//           name: celebrity.name,
+//           isInMovie: movie.cast.includes(celebrity.id)
+//         }))
+//       })
+//     })
+//     .catch(err => next(err))
+//   })
+//   .catch(err => next(err))
+// })
+
 
 // #### ##    ## ########  ######## ##     ## 
 //  ##  ###   ## ##     ## ##        ##   ##  
@@ -102,9 +124,9 @@ router.get(`/:id/edit`, function(req,res,next) {
 // #### ##    ## ########  ######## ##     ## 
 
 
-router.get(`/`, function(req, res, next) {
+router.get(`/`, (req, res, next) => {
   Movie.find()
-  .then(function(movies) {
+  .then(movies => {
     res.render(`movies/index`, {
       movies
     })
@@ -122,10 +144,10 @@ router.get(`/`, function(req, res, next) {
 //  ######  ##     ##  #######   ###  ###  
 
 
-router.get(`/:id`, function(req,res,next) {
+router.get(`/:id`, (req,res,next) => {
   Movie.findById(req.params.id)
   .populate(`cast`)
-  .then(function(movie) {
+  .then(movie =>  {
     res.render(`movies/show`, {
       movie
     })
@@ -134,16 +156,16 @@ router.get(`/:id`, function(req,res,next) {
 })
 
 
-// ######## ########  #### ######## 
-// ##       ##     ##  ##     ##    
-// ##       ##     ##  ##     ##    
-// ######   ##     ##  ##     ##    
-// ##       ##     ##  ##     ##    
-// ##       ##     ##  ##     ##    
-// ######## ########  ####    ##    
+// ########  ######## ##       ######## ######## ######## 
+// ##     ## ##       ##       ##          ##    ##       
+// ##     ## ##       ##       ##          ##    ##       
+// ##     ## ######   ##       ######      ##    ######   
+// ##     ## ##       ##       ##          ##    ##       
+// ##     ## ##       ##       ##          ##    ##       
+// ########  ######## ######## ########    ##    ######## 
 
 
-router.post(`/:id/delete`, function(req,res,next) {
+router.post(`/:id/delete`, (req,res,next) => {
   Movie.findByIdAndDelete(req.params.id)
   .then(
     res.redirect(`/movies`)
