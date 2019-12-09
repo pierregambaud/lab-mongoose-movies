@@ -28,4 +28,14 @@ router.post(`/`, function(req,res,next) {
   .catch(err => next(err))
 })
 
+router.get(`/`, function(req, res, next) {
+  Movie.find()
+  .then(function(movies) {
+    res.render(`movies/index`, {
+      movies
+    })
+  })
+  .catch(err => next(err))
+})
+
 module.exports = router;
