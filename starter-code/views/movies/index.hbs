@@ -1,0 +1,10 @@
+<h2>Movies</h2>
+<ul>
+{{#each movies}}
+  <li>
+    <a href="movies/{{_id}}">{{title}}</a>
+  </li>
+{{/each}}
+</ul>
+<a href="movies/new">Create a new celebrity</a>
+<a href="movies/edit">Edit a celebrity</a>
